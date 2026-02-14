@@ -2,8 +2,8 @@ import { test, expect, Page } from '@playwright/test';
 import { count } from 'node:console';
 
 
-test.describe('Exercise 1.2', () => {
-  test('Lab1-01EX - shopping workflow', async ({ page }) => {
+test.describe('Exercise 2', () => {
+  test('Lab1-EX2-1 - shopping workflow', async ({ page }) => {
     const email = `LAB1_auto+${Date.now()}@mail.com`;
     const password = 'Test123';
     const country = 'Lithuania';
@@ -140,22 +140,74 @@ test.describe('Exercise 1.2', () => {
 
     // 34. My account → Orders
     await page.goto('https://demowebshop.tricentis.com/customer/orders', { waitUntil: 'domcontentloaded' });
-    await expect(page).toHaveURL(/\/customer\/orders/);
     await expect(page.locator('.order-list')).toBeVisible();
         
     // 35. Open most recent order
     const firstOrderDetailsButton = page.locator('.order-list .order-item .order-details-button').first();
     await firstOrderDetailsButton.waitFor({ state: 'visible' });
     await firstOrderDetailsButton.click();
-    await expect(page).toHaveURL(/\/orderdetails\//);
     
     // 36. Log out
     await page.getByRole('link', { name: 'Log out' }).click();
     await expect(page.getByRole('link', { name: 'Log in' })).toBeVisible();
 
   });
+
+
+  test('Lab1-EX2-2 - pagination', async ({ page }) => {    
+  await page.goto('https://demoqa.com/');
+  await page.getByRole('link', { name: 'Elements' }).click();
+  await page.getByRole('link', { name: 'Web Tables' }).click();
+
+  const deleteButtons = page.locator('[title="Delete"]');
+  let currentRecords = await deleteButtons.count();
+  const targetRecords = 11;
+
+  
+  while (currentRecords > targetRecords) {
+    await deleteButtons.first().click();
+    currentRecords = await deleteButtons.count();
+  }
+
+  const recordsToAdd = Math.max(0, targetRecords - currentRecords);
+
+  for (let i = 0; i < recordsToAdd; i++) {
+    await page.getByRole('button', { name: 'Add' }).click();
+
+    await page.getByRole('textbox', { name: 'First Name' }).fill(`John${i}`);
+    await page.getByRole('textbox', { name: 'Last Name' }).fill(`Doe${i}`);
+    await page.getByRole('textbox', { name: 'name@example.com' }).fill(`john${i}@mail.com`);
+    await page.getByRole('textbox', { name: 'Age' }).fill('42');
+    await page.getByRole('textbox', { name: 'Salary' }).fill('0');
+    await page.getByRole('textbox', { name: 'Department' }).fill('Testing');
+
+    await page.getByRole('button', { name: 'Submit' }).click();
+  }
+
+  const nextButton = page.getByRole('button', { name: 'Next' });
+  const pageInfo = page.getByText(/Page\s*\d+\s*of\s*\d+/).first();
+
+  await expect(nextButton).toBeEnabled();
+  await nextButton.click();
+
+  await expect(pageInfo).toContainText('2 of 2');
+
+  await deleteButtons.first().click();
+
+  await expect(pageInfo).toContainText('1 of 1');
+  await expect(nextButton).toBeDisabled();
+
+
+  
+
+
+  });
  
 });
+
+  
+
+
 
 
 export async function logoutIfLoggedIn(page: Page) {

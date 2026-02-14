@@ -7,6 +7,4 @@ test('Exercise 1.2 - open Demo Web Shop home page', async ({ page }) => {
   await expect(page).toHaveTitle(/Demo Web Shop/i);
   await expect(page.getByRole('link', { name: /Register/i })).toBeVisible();
 
-
-
 });
