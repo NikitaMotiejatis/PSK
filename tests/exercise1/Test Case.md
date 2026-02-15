@@ -1,21 +1,20 @@
-# Test Case – LAB1-01
+# Test Case – LAB1 - Exercise 1 - Task 1.1
 
 ## Test Case Attributes
 
-- **TC ID:** LAB1-01  
-- **Title:** Baseic shopping workflow  
+- **TC ID:** LAB1-EX1-1  
+- **Title:** Shopping workflow  
 - **Target App:** https://demowebshop.tricentis.com/  
-- **Module:** Items / Cart / Checkout / Orders  
+- **Module:** User control / Items / Cart / Checkout / Orders  
 - **Objective:** Verify a user can register/login, add multiple expensive items (price > 900), manage cart (update/remove), and complete checkout successfully.  
 - **Priority:** High  
-- **Type:** UI E2E (Happy path + CRUD on cart)
+- **Type:** UI, end-to-end
 
 ### Preconditions
-1. Site is available.  
-2. Browser supports JavaScript.  
-3. User is logged out.  
-4. If using a new account, the email is not yet registered.  
-5. Cart is empty.
+1. Site is available.    
+2. User is logged out.  
+3. When creating a new account, the email is not yet registered.  
+4. Cart is empty.
 
 ### Test Data
 - **Email:** `LAB1_auto+<timestamp>@mail.com` 
@@ -27,20 +26,14 @@
 - **Address:** `Lithuania, Vilnius, Jono g. 7, LT10322`
 - **Phone Number** `+370 603 50030`
 
-### Environment
-- Local machine, Chrome/Edge, automation running locally
-
 ### Oracles / Verifications required
 - UI messages  
 - Element visibility  
 - Cart totals  
 - Order confirmation
 
-### Entry Criteria
-- Home page loads, user can navigate categories
-
 ### Exit Criteria
-- Order placed **OR** failure captured with screenshots/logs
+- Order placed **OR** failure captured 
 
 ### Postconditions
 - User logged out  
@@ -72,7 +65,7 @@
 18. Click **Shopping cart** → Cart page opens; items are listed.  
 19. **Verification #1:** Confirm cart contains **≥ 2 items** → Pass if true.  
 20. **CRUD (Update):** Increase quantity for one item (e.g., set qty = 2) and click **Update shopping cart** → Quantity updates and totals recalculate.  
-21. **Verification #2 (Arithmetic):** Verify **Total = Σ(line item subtotal)** (at least for the updated item: `unitPrice × qty = lineSubtotal`) → Pass if arithmetic matches the UI.  
+21. **Verification #2 (Arithmetic):** Verify **Total = $\sum$(line item subtotal)** (at least for the updated item: `unitPrice × qty = lineSubtotal`) → Pass if arithmetic matches the UI.  
 22. **CRUD (Delete):** Remove one item using its **Remove** checkbox/button, then click **Update shopping cart** → Item disappears from the cart.  
 23. **Verification #3:** Confirm removed item no longer appears → Pass if not present.  
 24. Accept **Terms of service** checkbox → Checkbox is checked.  

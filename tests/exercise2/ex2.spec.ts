@@ -3,7 +3,9 @@ import { count } from 'node:console';
 
 
 test.describe('Exercise 2', () => {
+
   test('Lab1-EX2-1 - shopping workflow', async ({ page }) => {
+
     const email = `LAB1_auto+${Date.now()}@mail.com`;
     const password = 'Test123';
     const country = 'Lithuania';
@@ -154,7 +156,8 @@ test.describe('Exercise 2', () => {
   });
 
 
-  test('Lab1-EX2-2 - pagination', async ({ page }) => {    
+  test('Lab1-EX2-2 - pagination', async ({ page }) => {   
+
   await page.goto('https://demoqa.com/');
   await page.getByRole('link', { name: 'Elements' }).click();
   await page.getByRole('link', { name: 'Web Tables' }).click();
@@ -197,17 +200,9 @@ test.describe('Exercise 2', () => {
   await expect(pageInfo).toContainText('1 of 1');
   await expect(nextButton).toBeDisabled();
 
-
-  
-
-
   });
  
 });
-
-  
-
-
 
 
 export async function logoutIfLoggedIn(page: Page) {
@@ -217,6 +212,7 @@ export async function logoutIfLoggedIn(page: Page) {
   if (await logoutLink.count() > 0 && await logoutLink.first().isVisible()) {
     await logoutLink.first().click();
   }
+  
 }
 
 
