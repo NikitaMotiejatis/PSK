@@ -216,7 +216,7 @@ export async function logoutIfLoggedIn(page: Page) {
 }
 
 
-async function addItemBiggerThan(page: Page, value: number, usedProducts: Set<string>) {
+export async function addItemBiggerThan(page: Page, value: number, usedProducts: Set<string>) {
 
   const products = page.locator('.product-item');
 

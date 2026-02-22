@@ -1,0 +1,16 @@
+{
+  "user": {
+    "firstName": "Smart",
+    "lastName": "Bot",
+    "gender": "Male",
+    "password": "Test123"
+  },
+  "address": {
+    "country": "Lithuania",
+    "city": "Vilnius",
+    "street": "Jono g. 7",
+    "zip": "LT10322",
+    "phone": "+37060350030"
+  },
+  "priceThreshold": 900
+}
