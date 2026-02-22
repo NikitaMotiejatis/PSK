@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
 import userData from './test-data/userData.json';
-import { logoutIfLoggedIn, addItemBiggerThan } from '../exercise2/ex2.spec.ts';
+import { logoutIfLoggedIn, addItemBiggerThan } from '../utils/shopHelpers.ts';
 
 
-test.describe('Exercise 4.1 - Data Driven Shopping Workflow', () => {
+test.describe('Exercise 4.1', () => {
 
   test('LAB1-EX4 - Data-Driven Testing & Test Orchestration', async ({ page }) => {
 
