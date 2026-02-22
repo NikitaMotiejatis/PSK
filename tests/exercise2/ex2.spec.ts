@@ -53,7 +53,7 @@ test.describe('Exercise 2', () => {
     //14-16 First Expensive Item
     await addItemBiggerThan(page, 900, usedProducts);
     
-    //17 Second Expensive item
+    // 17 Second Expensive item
     await page.locator('a[href="/computers"]').first().click();
     await page.locator('a[href="/desktops"]').first().click();
 
@@ -74,8 +74,8 @@ test.describe('Exercise 2', () => {
 
     await page.getByRole('button', { name: 'Update Shopping cart' }).click();
 
-    // 21. Verification 2 - arithmetic 
-    // unitPrice * qty == line subtotal
+    // 21. Verification 2 - arithmetic sum 
+    // Total sum = unitPrice * qty
     const firstRow = cartRows.first();
 
     const unitPriceText =
@@ -237,12 +237,9 @@ async function addItemBiggerThan(page: Page, value: number, usedProducts: Set<st
       .locator('.product-title a')
       .innerText()).trim();
 
-    const priceText =
-      await product.locator('.prices').innerText();
+    const priceText = await product.locator('.prices').innerText();
 
-    const price = Number(
-      priceText.replace(/[^0-9.]/g, '')
-    );
+    const price = Number(priceText.replace(/[^0-9.]/g, ''));
 
     // Excluded because requre to select options before adding to cart
     const excluded =

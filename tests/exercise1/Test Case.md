@@ -58,14 +58,14 @@
 11. Click **Log in** → Login page opens.  
 12. Enter registered **Email** and **Password**, click **Log in** → User is logged in (account email link visible).  
 13. Navigate to a category (**Computers → Desktops**) → Product listing page opens.  
-14. For each product tile visible on the listing page, read the displayed **price** (text) → Price is captured for decision-making.  
+14. Visually scan for **prices**
 15. Open product details for the first product with price > 900 and product name is not “Build your own computer” and not “Simple computer” (do not use site sorting/filtering) → Product details page opens. 
 16. Click **Add to cart** → Confirmation (bar/message) appears; cart count increments.  
 17. Return to the listing (Back) and repeat steps 13–15 until **at least 2 items** with **price > 900** are added → Cart has multiple expensive items.  
 18. Click **Shopping cart** → Cart page opens; items are listed.  
 19. **Verification #1:** Confirm cart contains **≥ 2 items** → Pass if true.  
 20. **CRUD (Update):** Increase quantity for one item (e.g., set qty = 2) and click **Update shopping cart** → Quantity updates and totals recalculate.  
-21. **Verification #2 (Arithmetic):** Verify **Total = $\sum$(line item subtotal)** (at least for the updated item: `unitPrice × qty = lineSubtotal`) → Pass if arithmetic matches the UI.  
+21. **Verification #2 (Arithmetic):** Verify **Total = sum of items** `unitPrice × qty = lineSubtotal`) → Pass if value matches the UI.  
 22. **CRUD (Delete):** Remove one item using its **Remove** checkbox/button, then click **Update shopping cart** → Item disappears from the cart.  
 23. **Verification #3:** Confirm removed item no longer appears → Pass if not present.  
 24. Accept **Terms of service** checkbox → Checkbox is checked.  
