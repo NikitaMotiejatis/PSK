@@ -9,6 +9,8 @@ test.describe('Exercise 4.1', () => {
 
     const email = `LAB1_auto+${Date.now()}@mail.com`;
     const { user, address, priceThreshold } = userData;
+    const genderValue = user.gender.toLowerCase();
+    
 
     // =========================
     // PRECONDITIONS
@@ -20,7 +22,15 @@ test.describe('Exercise 4.1', () => {
     // REGISTRATION
     // =========================
     await page.getByRole('link', { name: 'Register' }).click();
-    await page.getByRole('radio', { name: user.gender }).check();
+
+    // Gender selection based on test data
+    if (genderValue === 'male') {
+      await page.locator('#gender-male').check();
+    } else if (genderValue === 'female') {
+      await page.locator('#gender-female').check();
+    } else {
+      throw new Error(`Unsupported gender value: ${user.gender}`);
+    }
 
     await page.getByRole('textbox', { name: 'First name:' }).fill(user.firstName);
     await page.getByRole('textbox', { name: 'Last name:' }).fill(user.lastName);
@@ -56,7 +66,7 @@ test.describe('Exercise 4.1', () => {
     // =========================
     // CHECKOUT
     // =========================
-    await page.locator('a[href="/cart"]').click();
+    await page.locator('a[href="/cart"]').first().click();
     await expect(page.locator('.cart-item-row')).toHaveCount(2);
 
     await page.locator('#termsofservice').check();
