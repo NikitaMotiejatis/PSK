@@ -48,6 +48,7 @@ test.describe('Exercise 2', () => {
 
     // 13 Navigate to category
     await page.locator('a[href="/computers"]').first().click();
+    await page.evaluate("document.body.style.zoom=0.6");
     await page.locator('a[href="/desktops"]').first().click();
 
     //14-16 First Expensive Item
@@ -55,6 +56,7 @@ test.describe('Exercise 2', () => {
     
     // 17 Second Expensive item
     await page.locator('a[href="/computers"]').first().click();
+    await page.evaluate("document.body.style.zoom=0.6");
     await page.locator('a[href="/desktops"]').first().click();
 
     await addItemBiggerThan(page, 900, usedProducts);
