@@ -6,7 +6,10 @@ test.describe('Excercise 3', () => {
 
     await page.goto('https://demoqa.com/');
     await page.getByText('Widgets').click();
-    await page.getByText('Progress Bar').click();
+    const progressBarLink = page.locator('.left-pannel').getByText('Progress Bar');
+    await progressBarLink.waitFor({ state: 'visible' });
+    await progressBarLink.scrollIntoViewIfNeeded();
+    await progressBarLink.click({ force: true });
 
     const progressBar = page.locator('#progressBar');
     const startButton = page.getByRole('button', { name: 'Start' });
@@ -39,9 +42,7 @@ test.describe('Excercise 3', () => {
 
     test('LAB1-EX3-2 - Dynamic Properties', async ({ page }) => {
 
-    await page.goto('https://demoqa.com/');
-    await page.getByText('Elements').click();
-    await page.getByText('Dynamic Properties').click();
+    await page.goto('https://demoqa.com/dynamic-properties');
 
     const enableAfterBtn = page.locator('#enableAfter');
     const colorChangeBtn = page.locator('#colorChange');

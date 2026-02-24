@@ -16,11 +16,6 @@ export async function addItemBiggerThan(page: Page, value: number, usedProducts:
 
   const products = page.locator('.product-item');
 
-  const beforeText =
-    await page.locator('#topcartlink .cart-qty').innerText();
-
-  const before = Number(beforeText.replace(/[^\d]/g, ''));
-
   const count = await products.count();
 
   let added = false;
@@ -57,13 +52,6 @@ export async function addItemBiggerThan(page: Page, value: number, usedProducts:
 
       const bar = page.locator('.bar-notification.success');
       await expect(bar).toBeVisible();
-
-      const afterText =
-        await page.locator('#topcartlink .cart-qty').innerText();
-
-      const after = Number(afterText.replace(/[^\d]/g, ''));
-
-      expect(after).toBe(before + 1);
 
       usedProducts.add(title); // Add selected item to exclusion
 

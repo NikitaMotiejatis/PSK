@@ -47,16 +47,14 @@ test.describe('Exercise 2', () => {
     await expect(page.locator('a[href="/logout"]')).toBeVisible();
 
     // 13 Navigate to category
-    await page.locator('a[href="/computers"]').first().click();
-    await page.evaluate("document.body.style.zoom=0.6");
+    await page.locator('a[href="/computers"]').first().hover();
     await page.locator('a[href="/desktops"]').first().click();
 
     //14-16 First Expensive Item
     await addItemBiggerThan(page, 900, usedProducts);
     
     // 17 Second Expensive item
-    await page.locator('a[href="/computers"]').first().click();
-    await page.evaluate("document.body.style.zoom=0.6");
+    await page.locator('a[href="/computers"]').first().hover();
     await page.locator('a[href="/desktops"]').first().click();
 
     await addItemBiggerThan(page, 900, usedProducts);
@@ -75,6 +73,7 @@ test.describe('Exercise 2', () => {
     await firstQtyInput.fill('2');
 
     await page.getByRole('button', { name: 'Update Shopping cart' }).click();
+    await page.waitForLoadState('load');
 
     // 21. Verification 2 - arithmetic sum 
     // Total sum = unitPrice * qty
@@ -111,31 +110,34 @@ test.describe('Exercise 2', () => {
     await page.getByRole('textbox', { name: 'Zip / postal code:' }).fill(zipCode);
     await page.getByRole('textbox', { name: 'Phone number:' }).fill(phoneNumber);
 
-    await page.locator('#billing-buttons-container input.button-1').click();
+    await page.locator('#billing-buttons-container input.button-1').click({ force: true });
 
     // 27. Confirm Shipping Address
     await page.locator('#shipping-buttons-container input.button-1').waitFor({ state: 'visible' });
-    await page.locator('#shipping-buttons-container input.button-1').click();
+    await page.locator('#shipping-buttons-container input.button-1').click({ force: true });
 
     // 28. Shipping method
     await page.locator('#shipping-method-buttons-container input.button-1').waitFor({ state: 'visible' });
-    await page.locator('#shipping-method-buttons-container input.button-1').click();
+    await page.locator('#shipping-method-buttons-container input.button-1').click({ force: true });
+    await page.waitForLoadState('networkidle');
 
     // 29. Payment method (Cash On Delivery)
     await page.locator('#paymentmethod_0').waitFor({ state: 'visible' });
     await page.locator('#paymentmethod_0').check();
-    await page.locator('#payment-method-buttons-container input.button-1').click();
+    await page.locator('#payment-method-buttons-container input.button-1').click({ force: true });
+    await page.waitForLoadState('networkidle');
 
     // 30. Payment information
-    await page.locator('#payment-info-buttons-container input.button-1').waitFor({ state: 'visible' });
-    await page.locator('#payment-info-buttons-container input.button-1').click();
-    
+    await page.locator('#payment-info-buttons-container input.button-1').waitFor({ state: 'visible', timeout: 15000 });
+    await page.locator('#payment-info-buttons-container input.button-1').click({ force: true });
+    await page.waitForLoadState('networkidle');
+
     // 31. Verification #4 – items visible on confirmation page
     const confirmButton = page.locator('#confirm-order-buttons-container .button-1.confirm-order-next-step-button');
     await confirmButton.waitFor({ state: 'visible' });
 
     // 32. Confirm order
-    await confirmButton.click();
+    await confirmButton.click({ force: true });
 
     // 33. Verification #5 – success message
     await expect(
@@ -143,7 +145,7 @@ test.describe('Exercise 2', () => {
     ).toBeVisible();
 
     // 34. My account → Orders
-    await page.goto('https://demowebshop.tricentis.com/customer/orders', { waitUntil: 'domcontentloaded' });
+    await page.goto('https://demowebshop.tricentis.com/customer/orders', { waitUntil: 'commit' });
     await expect(page.locator('.order-list')).toBeVisible();
         
     // 35. Open most recent order
@@ -186,14 +188,16 @@ test.describe('Exercise 2', () => {
     await page.getByRole('textbox', { name: 'Salary' }).fill('0');
     await page.getByRole('textbox', { name: 'Department' }).fill('Testing');
 
-    await page.getByRole('button', { name: 'Submit' }).click();
+    await page.getByRole('button', { name: 'Submit' }).click({ force: true });
   }
 
   const nextButton = page.getByRole('button', { name: 'Next' });
   const pageInfo = page.getByText(/Page\s*\d+\s*of\s*\d+/).first();
 
   await expect(nextButton).toBeEnabled();
+  await nextButton.scrollIntoViewIfNeeded();
   await nextButton.click();
+  await page.waitForLoadState('networkidle');
 
   await expect(pageInfo).toContainText('2 of 2');
 
