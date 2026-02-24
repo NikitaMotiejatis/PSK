@@ -119,18 +119,15 @@ test.describe('Exercise 2', () => {
     // 28. Shipping method
     await page.locator('#shipping-method-buttons-container input.button-1').waitFor({ state: 'visible' });
     await page.locator('#shipping-method-buttons-container input.button-1').click({ force: true });
-    await page.waitForLoadState('networkidle');
 
     // 29. Payment method (Cash On Delivery)
     await page.locator('#paymentmethod_0').waitFor({ state: 'visible' });
     await page.locator('#paymentmethod_0').check();
     await page.locator('#payment-method-buttons-container input.button-1').click({ force: true });
-    await page.waitForLoadState('networkidle');
 
     // 30. Payment information
     await page.locator('#payment-info-buttons-container input.button-1').waitFor({ state: 'visible', timeout: 15000 });
     await page.locator('#payment-info-buttons-container input.button-1').click({ force: true });
-    await page.waitForLoadState('networkidle');
 
     // 31. Verification #4 – items visible on confirmation page
     const confirmButton = page.locator('#confirm-order-buttons-container .button-1.confirm-order-next-step-button');
@@ -181,7 +178,9 @@ test.describe('Exercise 2', () => {
   for (let i = 0; i < recordsToAdd; i++) {
     await page.getByRole('button', { name: 'Add' }).click();
 
-    await page.getByRole('textbox', { name: 'First Name' }).fill(`John${i}`);
+    const firstNameInput = page.getByRole('textbox', { name: 'First Name' });
+    await firstNameInput.waitFor({ state: 'visible' });
+    await firstNameInput.fill(`John${i}`);
     await page.getByRole('textbox', { name: 'Last Name' }).fill(`Doe${i}`);
     await page.getByRole('textbox', { name: 'name@example.com' }).fill(`john${i}@mail.com`);
     await page.getByRole('textbox', { name: 'Age' }).fill('42');
@@ -197,7 +196,6 @@ test.describe('Exercise 2', () => {
   await expect(nextButton).toBeEnabled();
   await nextButton.scrollIntoViewIfNeeded();
   await nextButton.click();
-  await page.waitForLoadState('networkidle');
 
   await expect(pageInfo).toContainText('2 of 2');
 

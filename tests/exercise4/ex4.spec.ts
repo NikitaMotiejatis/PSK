@@ -61,7 +61,7 @@ test.describe('Exercise 4.1', () => {
     const usedProducts = new Set<string>();
     await addItemBiggerThan(page, priceThreshold, usedProducts);
     await page.goBack();
-    await page.waitForLoadState('networkidle');
+    await page.locator('.product-item').first().waitFor({ state: 'visible' });
     await addItemBiggerThan(page, priceThreshold, usedProducts);
 
     // =========================
@@ -72,7 +72,7 @@ test.describe('Exercise 4.1', () => {
 
     await page.locator('#termsofservice').check();
     await page.getByRole('button', { name: 'Checkout' }).click();
-    await page.waitForLoadState('networkidle');
+    await page.locator('#billing-buttons-container input.button-1').waitFor({ state: 'visible' });
 
     await page.getByRole('combobox', { name: 'Country:' }).selectOption(address.country);
     await page.getByRole('textbox', { name: 'City:' }).fill(address.city);
@@ -82,20 +82,15 @@ test.describe('Exercise 4.1', () => {
 
     await page.locator('#billing-buttons-container input.button-1').waitFor({ state: 'visible' });
     await page.locator('#billing-buttons-container input.button-1').click({ force: true });
-    await page.waitForLoadState('networkidle');
     await page.locator('#shipping-buttons-container input.button-1').waitFor({ state: 'visible' });
     await page.locator('#shipping-buttons-container input.button-1').click({ force: true });
-    await page.waitForLoadState('networkidle');
     await page.locator('#shipping-method-buttons-container input.button-1').waitFor({ state: 'visible' });
     await page.locator('#shipping-method-buttons-container input.button-1').click({ force: true });
-    await page.waitForLoadState('networkidle');
     await page.locator('#paymentmethod_0').waitFor({ state: 'visible' });
     await page.locator('#paymentmethod_0').check();
     await page.locator('#payment-method-buttons-container input.button-1').click({ force: true });
-    await page.waitForLoadState('networkidle');
     await page.locator('#payment-info-buttons-container input.button-1').waitFor({ state: 'visible', timeout: 15000 });
     await page.locator('#payment-info-buttons-container input.button-1').click({ force: true });
-    await page.waitForLoadState('networkidle');
     await page.locator('.confirm-order-next-step-button').waitFor({ state: 'visible' });
     await page.locator('.confirm-order-next-step-button').click({ force: true });
 
